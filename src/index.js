@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -8,6 +8,7 @@ import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Basket from './pages/Basket';
 import AddProduct from './pages/AddProduct';
+import SignIn from './pages/SignIn';
 
 
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         index:true,
         element: <Products />
+      },
+      {
+        path:"signin",
+        element: <SignIn />
       },
       {
         path:"/products/:id",
