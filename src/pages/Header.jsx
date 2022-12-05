@@ -13,9 +13,9 @@ export default function Header() {
           });
     }
     return (
-        <header>
+        <header className='flex justify-between'>
             <div> logo </div>
-            <div>
+            <div >
                 <button>Products</button> 
                 <button>basket</button>
                 <button>add</button>
