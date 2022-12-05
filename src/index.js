@@ -8,7 +8,8 @@ import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Basket from './pages/Basket';
 import AddProduct from './pages/AddProduct';
-import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import firebase from './config/firebase'
 
 
 const router = createBrowserRouter([
@@ -22,8 +23,8 @@ const router = createBrowserRouter([
         element: <Products />
       },
       {
-        path:"signin",
-        element: <SignIn />
+        path:"/sign-up",
+        element: <SignUp />
       },
       {
         path:"/products/:id",
