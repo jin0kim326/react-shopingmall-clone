@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-/**
- * 회원가입 
- */
-export default function SignUp() {
+export default function SignIn() {
     const [user, setUser] = useState({email:'', password:''}); // 회원가입정보 
     const navigate = useNavigate();
 
@@ -16,7 +13,7 @@ export default function SignUp() {
         const {email, password} = user;
         
 
-        createUserWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
             navigate('/');

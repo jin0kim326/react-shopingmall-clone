@@ -10,6 +10,7 @@ import Basket from './pages/Basket';
 import AddProduct from './pages/AddProduct';
 import SignUp from './pages/SignUp';
 import firebase from './config/firebase'
+import SignIn from './pages/SignIn';
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path:"/sign-up",
         element: <SignUp />
+      },
+      {
+        path:"/sign-in",
+        element: <SignIn />
       },
       {
         path:"/products/:id",
