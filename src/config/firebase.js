@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
-import { getFireStore, collection, getDocs } from 'firebase/firestore/lite'
+// import { getAuth } from 'firebase/auth'
+// import { getFireStore, collection, getDocs } from 'firebase/firestore/lite'
 
 const PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID;
 const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
@@ -18,7 +18,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 // const db = getFireStore(app);
-const auth = getAuth(app);
 
 // // Get a list of cities from your database
 // async function getCities(db) {
