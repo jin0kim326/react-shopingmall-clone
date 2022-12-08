@@ -1,42 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { getAuth, signOut } from 'firebase/auth';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginUser from './LoginUser';
-import { useQuery } from '@tanstack/react-query';
 import {BsFillPencilFill} from 'react-icons/bs'
 import {FiShoppingBag} from 'react-icons/fi'
-import { login } from '../config/firebase';
+import { login, logout } from '../config/firebase';
 
 export default function Header() {
-    const [authId, setAuthId] = useState('');
-    const {
-        isLoading,
-        error,
-        data: auth
-    } = useQuery(['auth', authId],() => {
-        // const obj = { a : 'bbb', currentUser:'real'};
-        // return obj;
-        return getAuth()
-      }
-    );
+    const [user, setUser] = useState();
 
-    useEffect(() => {
-    }, [auth])
-
-    const handleSignOut = () => {
-        signOut(auth).then(() => {
-            
-          }).catch((error) => {
-            // An error happened.
-          });
+    const handleLogin = () => {
+        login().then(setUser);
     }
 
+    const handleLogout = () => {
+        logout().then(setUser);
+    }
     
     return (
         <>
-            {isLoading && <p>Loading...</p>}
-            {error && <p> 😿 {error}</p>}
-            {auth && (
+            {user && (
             <header className='flex justify-between border-b border-gray-300 p-2'>
                 <Link to='/' className='flex items-center text-4xl text-brand'>
                      <FiShoppingBag /> 
@@ -48,10 +30,10 @@ export default function Header() {
                     <Link to='/products/add' className='text-2xl'>
                         <BsFillPencilFill />
                     </Link>
-                    {auth.currentUser && <LoginUser user={auth.currentUser}/>}
-                    {auth.currentUser ? 
-                    <button onClick={handleSignOut}>LogOut</button> :
-                    <button onClick={login}>Login</button>
+                    {user && <LoginUser user={user}/>}
+                    {user ? 
+                    <button onClick={logout}>LogOut</button> :
+                    <button onClick={handleLogin}>Login</button>
                     }
                 </nav>
             </header>)}
