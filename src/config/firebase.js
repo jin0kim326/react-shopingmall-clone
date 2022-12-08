@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 
 const PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID;
 const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
@@ -27,4 +27,10 @@ export async function login() {
 
 export async function logout() {
   return signOut(auth).then(() => null);
+}
+
+export function onUserStateChange(callback) {
+  onAuthStateChanged(auth, (user) => {
+    callback(user);
+  })
 }

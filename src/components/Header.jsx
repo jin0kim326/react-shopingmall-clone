@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginUser from './LoginUser';
 import {BsFillPencilFill} from 'react-icons/bs'
 import {FiShoppingBag} from 'react-icons/fi'
-import { login, logout } from '../config/firebase';
+import { login, logout, onUserStateChange } from '../config/firebase';
 
 export default function Header() {
     const [user, setUser] = useState();
+
+    useEffect(()=>{
+        onUserStateChange((user) => {
+            console.log(user);
+            setUser(user);
+        })
+    })
 
     const handleLogin = () => {
         login().then(setUser);
@@ -17,8 +24,6 @@ export default function Header() {
     }
     
     return (
-        <>
-            {user && (
             <header className='flex justify-between border-b border-gray-300 p-2'>
                 <Link to='/' className='flex items-center text-4xl text-brand'>
                      <FiShoppingBag /> 
@@ -32,12 +37,11 @@ export default function Header() {
                     </Link>
                     {user && <LoginUser user={user}/>}
                     {user ? 
-                    <button onClick={logout}>LogOut</button> :
+                    <button onClick={logout}>Logout</button> :
                     <button onClick={handleLogin}>Login</button>
                     }
                 </nav>
-            </header>)}
-        </>
+            </header>
     );
 }
 
