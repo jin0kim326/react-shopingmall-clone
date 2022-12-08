@@ -5,6 +5,7 @@ import LoginUser from './LoginUser';
 import { useQuery } from '@tanstack/react-query';
 import {BsFillPencilFill} from 'react-icons/bs'
 import {FiShoppingBag} from 'react-icons/fi'
+import { login } from '../config/firebase';
 
 export default function Header() {
     const [authId, setAuthId] = useState('');
@@ -49,8 +50,8 @@ export default function Header() {
                     </Link>
                     {auth.currentUser && <LoginUser user={auth.currentUser}/>}
                     {auth.currentUser ? 
-                    <Link to='/' onClick={handleSignOut}>sign-out</Link> :
-                    <Link to='/sign-in'><button>sign-in</button></Link> 
+                    <button onClick={handleSignOut}>LogOut</button> :
+                    <button onClick={login}>Login</button>
                     }
                 </nav>
             </header>)}
