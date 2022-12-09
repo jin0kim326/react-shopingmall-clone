@@ -8,11 +8,7 @@ import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Basket from './pages/Basket';
 import AddProduct from './pages/AddProduct';
-import SignUp from './pages/SignUp';
-import firebase from './config/firebase'
-import SignIn from './pages/SignIn';
-import PrivateRoute from './lib/PrivateRoute';
-
+import ProtectedRoute from './pages/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -34,11 +30,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/basket",
-        element: <Basket />
+        element:<ProtectedRoute>
+                  <Basket />
+                </ProtectedRoute>
       },
       {
         path: "/product/add",
-        element: <PrivateRoute component={AddProduct} exact/>
+        element:<ProtectedRoute requireAdmin>
+                    <AddProduct />
+                </ProtectedRoute>
       }
     ]
   }

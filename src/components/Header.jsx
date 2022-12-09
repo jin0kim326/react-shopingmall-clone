@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import LoginUser from './LoginUser';
 import {BsFillPencilFill} from 'react-icons/bs'
 import {FiShoppingBag} from 'react-icons/fi'
-import { getData, login, logout, onUserStateChange } from '../config/firebase';
 import Button from './ui/Button';
+import { useAuthContext } from './context/AuthContext';
 
 export default function Header() {
-    const [user, setUser] = useState();
-    
-    useEffect(()=>{
-        onUserStateChange((user)=>{
-            setUser(user);
-        });
-    },[])
+    const {user, login, logout} = useAuthContext();
 
     return (
             <header className='flex justify-between border-b border-gray-300 p-2'>
@@ -23,7 +17,7 @@ export default function Header() {
                  </Link>
                 <nav className='flex items-center gap-4 font-semibold'>
                     <Link to='/products'>Products</Link> 
-                    <Link to='/basket'>basket</Link>
+                    {user && <Link to='/basket'>basket</Link>}
                     {user && user.isAdmin &&
                     <Link to='/product/add' className='text-2xl'>
                         <BsFillPencilFill />

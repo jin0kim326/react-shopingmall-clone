@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { child, get, getDatabase, onValue, ref } from 'firebase/database'
+import { get, getDatabase, ref } from 'firebase/database'
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 
 const PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID;
@@ -43,9 +43,4 @@ async function adminUser(user) {
     }
     return user;
   })
-}
-
-async function isAdmin(user) {
-  const loginUser = await adminUser(user);
-  return loginUser.isAdmin;
 }
