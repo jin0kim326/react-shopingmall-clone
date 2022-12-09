@@ -45,13 +45,7 @@ async function adminUser(user) {
   })
 }
 
-export async function getData() {
-  const dbRef = ref(getDatabase());
-
-  return get(child(dbRef, `admins`)).then((snapshot) => {
-    // console.log(snapshot.val());
-    return snapshot.val();
-  }).catch((error) => {
-    console.error(error);
-  });
+async function isAdmin(user) {
+  const loginUser = await adminUser(user);
+  return loginUser.isAdmin;
 }

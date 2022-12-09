@@ -11,6 +11,7 @@ import AddProduct from './pages/AddProduct';
 import SignUp from './pages/SignUp';
 import firebase from './config/firebase'
 import SignIn from './pages/SignIn';
+import PrivateRoute from './lib/PrivateRoute';
 
 
 const router = createBrowserRouter([
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/product/add",
-        element: <AddProduct />
+        element: <PrivateRoute component={AddProduct} exact/>
       }
     ]
   }

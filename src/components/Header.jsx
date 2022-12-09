@@ -11,7 +11,6 @@ export default function Header() {
     
     useEffect(()=>{
         onUserStateChange((user)=>{
-            console.log(user);
             setUser(user);
         });
     },[])
