@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { child, get, getDatabase, onValue, ref } from 'firebase/database'
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 
 const PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID;
@@ -12,25 +13,32 @@ const firebaseConfig = {
   };
 
 const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
-export async function login() {
-  return signInWithPopup(auth, provider)
-  .then((result) => {
-    const user = result.user;
-    return user;
-  }).catch((error) => {
-    console.log(error);
-  });
+export function login() {
+  signInWithPopup(auth, provider)
+  .catch(console.error);
 }
 
-export async function logout() {
-  return signOut(auth).then(() => null);
+export function logout() {
+  signOut(auth).catch(console.error);
 }
 
 export function onUserStateChange(callback) {
   onAuthStateChanged(auth, (user) => {
     callback(user);
   })
+}
+
+export async function getData() {
+  const dbRef = ref(getDatabase());
+
+  return get(child(dbRef, `admins`)).then((snapshot) => {
+    // console.log(snapshot.val());
+    return snapshot.val();
+  }).catch((error) => {
+    console.error(error);
+  });
 }
