@@ -1,13 +1,13 @@
-import { Cloudinary } from '@cloudinary/url-gen';
 import React, { useState } from 'react';
 import Button from '../components/ui/Button';
-import { useEffect } from 'react';
-import { uploadIage, uploadImage } from '../config/uploader';
+import { uploadImage } from '../config/uploader';
 import { addProduct } from '../config/firebase';
 
 export default function AddProduct() {
   const [product, setProduct] = useState({});
   const [file, setFile] = useState();
+  const [isUploading, setIsUploading] = useState(false);
+  const [success, setSuccess] = useState();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -20,19 +20,36 @@ export default function AddProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsUploading(true);
 
-    uploadImage(file).then((url) => {
-      addProduct(product, url);
-    });
+    uploadImage(file)
+      .then((url) => {
+        addProduct(product, url) //
+          .then(() => {
+            setSuccess('성공적으로 제품이 추가되었습니다.');
+            setTimeout(() => {
+              setSuccess(null);
+            }, 4000);
+          });
+      })
+      .finally(() => setIsUploading(false));
 
     // fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`);
 
     // Firebase에 새로운 제품 추가
   };
   return (
-    <section>
-      {file && <img src={URL.createObjectURL(file)} alt='local file' />}
-      <form onSubmit={handleSubmit}>
+    <section className='w-full text-center'>
+      <h2 className='text-2xl font-bold my-4'>새로운 제품 등록</h2>
+      {success && <p className='my-2'>✅ {success} </p>}
+      {file && (
+        <img
+          className='w-96 mx-auto mb-2'
+          src={URL.createObjectURL(file)}
+          alt='local file'
+        />
+      )}
+      <form className='flex flex-col px-12' onSubmit={handleSubmit}>
         <input
           type='file'
           accept='image/*'
@@ -80,7 +97,10 @@ export default function AddProduct() {
           required
           onChange={handleChange}
         />
-        <Button text={'제품 등록하기'} />
+        <Button
+          text={isUploading ? '업로드중' : '제품 등록하기'}
+          disabled={isUploading}
+        />
       </form>
     </section>
   );

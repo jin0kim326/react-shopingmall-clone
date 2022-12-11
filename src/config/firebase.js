@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { get, getDatabase, push, ref, set } from 'firebase/database';
+import { get, getDatabase, ref, set } from 'firebase/database';
 import {
   GoogleAuthProvider,
   signInWithPopup,
