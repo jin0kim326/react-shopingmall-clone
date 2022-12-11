@@ -2,15 +2,12 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import React, { useState } from 'react';
 import Button from '../components/ui/Button';
 import { useEffect } from 'react';
+import { uploadIage, uploadImage } from '../config/uploader';
+import { addProduct } from '../config/firebase';
 
 export default function AddProduct() {
   const [product, setProduct] = useState({});
   const [file, setFile] = useState();
-
-  const cld = new Cloudinary();
-  useEffect(() => {
-    console.log(cld.getConfig());
-  });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -23,14 +20,12 @@ export default function AddProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 제품의 사진을 Cloudinary에 업로드 -> url획득
 
-    const cloudinaryData = {};
-    cloudinaryData.append('file', file);
-    cloudinaryData.append('api_key');
-    cloudinaryData.append('public_id');
-    cloudinaryData.append('timestamp', new Date());
-    cloudinaryData.append('signature');
+    uploadImage(file).then((url) => {
+      addProduct(product, url);
+    });
+
+    // fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`);
 
     // Firebase에 새로운 제품 추가
   };
