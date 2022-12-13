@@ -1,13 +1,13 @@
-import { initializeApp } from 'firebase/app';
-import { get, getDatabase, ref, set } from 'firebase/database';
+import { initializeApp } from "firebase/app";
+import { get, getDatabase, ref, set } from "firebase/database";
 import {
   GoogleAuthProvider,
   signInWithPopup,
   getAuth,
   signOut,
   onAuthStateChanged,
-} from 'firebase/auth';
-import { v4 as uuidv4 } from 'uuid';
+} from "firebase/auth";
+import { v4 as uuidv4 } from "uuid";
 
 const PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID;
 const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
@@ -16,7 +16,7 @@ const firebaseConfig = {
   apiKey: API_KEY,
   authDomain: `${PROJECT_ID}.firebaseapp.com`,
   databaseURL:
-    'https://shoppy-7c292-default-rtdb.asia-southeast1.firebasedatabase.app',
+    "https://shoppy-7c292-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: PROJECT_ID,
 };
 
@@ -47,16 +47,16 @@ export async function addProduct(product, image) {
     id,
     price: parseInt(product.price),
     image,
-    options: product.options.split(','),
+    options: product.options.split(","),
   })
     .then(() => {
-      console.log('Upload !');
+      console.log("Upload !");
     })
     .catch(console.error);
 }
 
 async function adminUser(user) {
-  return get(ref(db, 'admins')).then((snapshot) => {
+  return get(ref(db, "admins")).then((snapshot) => {
     if (snapshot.exists()) {
       const admins = snapshot.val();
       const isAdmin = admins.includes(user.uid);
@@ -64,4 +64,16 @@ async function adminUser(user) {
     }
     return user;
   });
+}
+
+export async function getProducts() {
+  return get(ref(db, "products")) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(Object.values(snapshot.val()));
+        return Object.values(snapshot.val());
+      }
+      return [];
+    })
+    .catch(console.error);
 }
