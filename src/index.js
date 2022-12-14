@@ -9,6 +9,7 @@ import Basket from "./pages/Basket";
 import AddProduct from "./pages/AddProduct";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import AllProducts from "./pages/AllProducts";
+import Home from "./pages/Home";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <AllProducts />,
+        element: <Home />,
       },
       {
         path: "/products",
