@@ -6,7 +6,7 @@ import { useAuthContext } from "../context/AuthContext";
 
 export default function BasketStatus() {
   const { uid } = useAuthContext();
-  const { data: products } = useQuery(["carts"], () => getBasket(uid));
+  const { data: products } = useQuery(["basket"], () => getBasket(uid));
   return (
     <div className="relative">
       <AiOutlineShoppingCart className="text-4xl" />
