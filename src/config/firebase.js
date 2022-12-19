@@ -77,3 +77,37 @@ export async function getProducts() {
     })
     .catch(console.error);
 }
+
+/**
+ * 장바구니 추가
+ * @param {*} userId : 회원의 ID
+ * @param {*} product : 추가한 상품
+ * @param {*} selected : 선택한 옵션
+ */
+export async function addBasket(userId, product, selected) {
+  const { id: productId } = product;
+  set(ref(db, `basket/${userId}/${productId}`), {
+    ...product,
+    count: 1, //주문수량1로 고정
+    selected,
+  })
+    .then(() => {
+      console.log("장바구니 추가 완료 !");
+    })
+    .catch(console.error);
+}
+
+/**
+ * 로그인한 유저의 장바구니
+ */
+export async function getBasket(userId) {
+  return get(ref(db, `basket/${userId}`)) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(Object.values(snapshot.val()));
+        return Object.values(snapshot.val());
+      }
+      return [];
+    })
+    .catch(console.error);
+}

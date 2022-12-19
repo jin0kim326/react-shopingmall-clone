@@ -1,22 +1,32 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { login, logout, onUserStateChange } from "../../config/firebase";
+import {
+  getBasket,
+  login,
+  logout,
+  onUserStateChange,
+} from "../../config/firebase";
 
 const AuthContext = createContext();
 
-export function AuthContextProvider({children}) {
-    const [user, setUser] = useState();
-    
-    useEffect(()=>{
-        onUserStateChange((user)=>{
-            setUser(user);
-        });
-    },[])
+export function AuthContextProvider({ children }) {
+  const [user, setUser] = useState();
+  useEffect(() => {
+    onUserStateChange((user) => {
+      setUser(user);
+    });
+  }, []);
 
-    return <AuthContext.Provider value={{user, login,logout}}>
-        {children}
+  const [count, setCount] = useState(
+    getBasket(1).then((data) => data.length) || 0
+  );
+
+  return (
+    <AuthContext.Provider value={{ user, count, setCount, login, logout }}>
+      {children}
     </AuthContext.Provider>
+  );
 }
 
 export function useAuthContext() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }

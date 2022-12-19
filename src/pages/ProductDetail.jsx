@@ -1,26 +1,36 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
+import { useAuthContext } from "../components/context/AuthContext";
+import { addBasket } from "../config/firebase";
 
 export default function ProductDetail() {
-  //   const location = useLocation();
-  //   const product = location.state;
-  // 아래처럼 작성 가능
-
+  const navigate = useNavigate();
   const {
     state: {
+      product,
       product: { id, image, title, description, category, price, options },
     },
   } = useLocation();
 
+  const { user } = useAuthContext();
   const [selected, setSelected] = useState(options && options[0]);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsCompleted(false);
+    }, 3000);
+  }, [isCompleted]);
 
   const handleSelect = (e) => {
     setSelected(e.target.value);
   };
 
   const handleClick = () => {
-    console.log("hhhh");
+    user
+      ? addBasket(user.uid, product, selected).then(setIsCompleted(true))
+      : alert("로그인 후 이용하세요.");
   };
 
   return (
@@ -48,6 +58,7 @@ export default function ProductDetail() {
                 ))}
             </select>
           </div>
+          {isCompleted && <p>장바구니에 추가완료 !!</p>}
           <Button text="장바구니에 추가" onClick={handleClick}></Button>
         </div>
       </section>
