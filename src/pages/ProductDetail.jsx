@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
-import { useAuthContext } from "../components/context/AuthContext";
-import { addBasket } from "../config/firebase";
+import { useAuthContext } from "../context/AuthContext";
+import { addOrUpdateBasket } from "../config/firebase";
 
 export default function ProductDetail() {
+  const { uid } = useAuthContext();
   const navigate = useNavigate();
   const {
     state: {
@@ -13,7 +14,6 @@ export default function ProductDetail() {
     },
   } = useLocation();
 
-  const { user } = useAuthContext();
   const [selected, setSelected] = useState(options && options[0]);
   const [isCompleted, setIsCompleted] = useState(false);
 
@@ -28,9 +28,8 @@ export default function ProductDetail() {
   };
 
   const handleClick = () => {
-    user
-      ? addBasket(user.uid, product, selected).then(setIsCompleted(true))
-      : alert("로그인 후 이용하세요.");
+    const product = { id, image, title, price, option: selected, quantity: 1 };
+    addOrUpdateBasket(uid, product);
   };
 
   return (

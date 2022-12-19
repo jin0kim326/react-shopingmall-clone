@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useAuthContext } from "../components/context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { getBasket } from "../config/firebase";
 import { AiOutlineMinusSquare, AiOutlinePlusSquare } from "react-icons/ai";

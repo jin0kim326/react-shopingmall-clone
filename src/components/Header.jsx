@@ -4,13 +4,13 @@ import LoginUser from "./LoginUser";
 import { BsFillPencilFill } from "react-icons/bs";
 import { FiShoppingBag } from "react-icons/fi";
 import Button from "./ui/Button";
-import { useAuthContext } from "./context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Header() {
   const { user, login, logout, count } = useAuthContext();
 
   return (
-    <header className="flex justify-between border-b border-gray-300 p-2">
+    <header className="flex justify-between border-b border-gray-  300 p-2">
       <Link to="/" className="flex items-center text-4xl text-brand">
         <FiShoppingBag />
         <h1>Shoopy</h1>
