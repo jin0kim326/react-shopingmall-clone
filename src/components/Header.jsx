@@ -5,6 +5,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 import { FiShoppingBag } from "react-icons/fi";
 import Button from "./ui/Button";
 import { useAuthContext } from "../context/AuthContext";
+import BasketStatus from "./BasketStatus";
 
 export default function Header() {
   const { user, login, logout, count } = useAuthContext();
@@ -17,7 +18,11 @@ export default function Header() {
       </Link>
       <nav className="flex items-center gap-4 font-semibold">
         <Link to="/products">Products</Link>
-        {user && <Link to="/basket">{`basket ${count}`}</Link>}
+        {user && (
+          <Link to="/basket">
+            <BasketStatus />
+          </Link>
+        )}
         {user && user.isAdmin && (
           <Link to="/product/add" className="text-2xl">
             <BsFillPencilFill />
