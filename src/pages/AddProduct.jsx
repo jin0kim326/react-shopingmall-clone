@@ -3,6 +3,7 @@ import Button from "../components/ui/Button";
 import { uploadImage } from "../config/uploader";
 import { addProduct } from "../config/firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useProducts from "../hooks/useProducts";
 
 export default function AddProduct() {
   const [product, setProduct] = useState({});
@@ -11,10 +12,7 @@ export default function AddProduct() {
   const [success, setSuccess] = useState();
 
   const queryClient = useQueryClient();
-  const addProduct = useMutation(
-    ({ product, url }) => addProduct(product, url),
-    { onSuccess: () => queryClient.invalidate(["products"]) }
-  );
+  const { addProduct } = useProducts();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

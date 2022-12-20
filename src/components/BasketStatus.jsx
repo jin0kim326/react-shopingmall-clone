@@ -3,10 +3,13 @@ import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { getBasket } from "../config/firebase";
 import { useAuthContext } from "../context/AuthContext";
+import useBasket from "../hooks/useBasket";
 
 export default function BasketStatus() {
-  const { uid } = useAuthContext();
-  const { data: products } = useQuery(["basket"], () => getBasket(uid));
+  const {
+    basketQuery: { data: products },
+  } = useBasket();
+
   return (
     <div className="relative">
       <AiOutlineShoppingCart className="text-4xl" />

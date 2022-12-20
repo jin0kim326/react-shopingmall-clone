@@ -1,61 +1,18 @@
-import React, { useState } from "react";
-import { useAuthContext } from "../context/AuthContext";
-import { useQuery } from "@tanstack/react-query";
-import { getBasket } from "../config/firebase";
+import React from "react";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { FaEquals } from "react-icons/fa";
 import CartItem from "../components/CartItem";
 import PriceCard from "../components/PriceCard";
 import Button from "../components/ui/Button";
+import useBasket from "../hooks/useBasket";
 
 const SHIPPING = 3000; //배송비 상수
 
 export default function Basket() {
-  const { user } = useAuthContext();
-  const { uid } = useAuthContext();
-  const { isLoading, data: products } = useQuery(["basket"], () =>
-    getBasket(uid)
-  );
+  const {
+    basketQuery: { isLoading, data: products },
+  } = useBasket();
 
-  //   const handlePlus = (id) => {
-  //     const findIndex = baskets.findIndex((product) => product.id === id);
-  //     const copyBaskets = [...baskets];
-
-  //     copyBaskets[findIndex] = {
-  //       ...copyBaskets[findIndex],
-  //       count: copyBaskets[findIndex].count + 1,
-  //     };
-  //     setBaskets(copyBaskets);
-  //   };
-
-  //   const handleMinus = (id) => {
-  //     const findIndex = baskets.findIndex((product) => product.id === id);
-  //     const copyBaskets = [...baskets];
-
-  //     copyBaskets[findIndex] = {
-  //       ...copyBaskets[findIndex],
-  //       count:
-  //         copyBaskets[findIndex].count === 0
-  //           ? 0
-  //           : copyBaskets[findIndex].count - 1,
-  //     };
-  //     setBaskets(copyBaskets);
-  //   };
-
-  //   const handleRemove = (id) => {
-  //     const findIndex = baskets.findIndex((product) => product.id === id);
-  //     const copyBaskets = [...baskets];
-
-  //     copyBaskets.splice(findIndex, 1);
-  //     setBaskets(copyBaskets);
-  //   };
-
-  //   const sumPrice =
-  //     baskets && baskets.length
-  //       ? baskets.reduce((sum, product) => {
-  //           return product.price * product.count + sum;
-  //         }, 0)
-  //       : 0;
   if (isLoading) return <p>Loading...</p>;
 
   const hasProducts = products && products.length > 0;
@@ -77,7 +34,7 @@ export default function Basket() {
           <ul className="border-b border-gray-300 mb-8 p-4 px-8">
             {products &&
               products.map((product) => (
-                <CartItem key={product.id} product={product} uid={uid} />
+                <CartItem key={product.id} product={product} />
               ))}
           </ul>
           <div className="flex justify-between items-center mb-6 px-2 md:px-8 lg:px-16">

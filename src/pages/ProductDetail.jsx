@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Button from "../components/ui/Button";
-import { useAuthContext } from "../context/AuthContext";
-import { addOrUpdateBasket } from "../config/firebase";
+import useBasket from "../hooks/useBasket";
 
 export default function ProductDetail() {
-  const { uid } = useAuthContext();
-  const navigate = useNavigate();
+  const { addOrUpdateItem } = useBasket();
   const {
     state: {
-      product,
       product: { id, image, title, description, category, price, options },
     },
   } = useLocation();
 
+  const [success, setSuccess] = useState();
   const [selected, setSelected] = useState(options && options[0]);
-  const [isCompleted, setIsCompleted] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsCompleted(false);
-    }, 3000);
-  }, [isCompleted]);
 
   const handleSelect = (e) => {
     setSelected(e.target.value);
@@ -29,7 +20,12 @@ export default function ProductDetail() {
 
   const handleClick = () => {
     const product = { id, image, title, price, option: selected, quantity: 1 };
-    addOrUpdateBasket(uid, product);
+    addOrUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess("✅ 장바구니에 추가되었습니다.");
+        setTimeout(() => setSuccess(null), 3000);
+      },
+    });
   };
 
   return (
@@ -57,7 +53,7 @@ export default function ProductDetail() {
                 ))}
             </select>
           </div>
-          {isCompleted && <p>장바구니에 추가완료 !!</p>}
+          {success && <p className="my-2">{success}</p>}
           <Button text="장바구니에 추가" onClick={handleClick}></Button>
         </div>
       </section>

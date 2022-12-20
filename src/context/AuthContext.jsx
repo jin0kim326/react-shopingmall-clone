@@ -1,10 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  getBasket,
-  login,
-  logout,
-  onUserStateChange,
-} from "../config/firebase";
+import { login, logout, onUserStateChange } from "../config/firebase";
 
 const AuthContext = createContext();
 
@@ -15,10 +10,6 @@ export function AuthContextProvider({ children }) {
       setUser(user);
     });
   }, []);
-
-  const [count, setCount] = useState(
-    getBasket(1).then((data) => data.length) || 0
-  );
 
   return (
     <AuthContext.Provider

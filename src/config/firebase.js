@@ -95,7 +95,6 @@ export async function getBasket(userId) {
  * 장바구니 추가
  * @param {*} userId : 회원의 ID
  * @param {*} product : 추가한 상품
- * @param {*} selected : 선택한 옵션
  */
 export async function addOrUpdateBasket(userId, product) {
   set(ref(db, `basket/${userId}/${product.id}`), product);
